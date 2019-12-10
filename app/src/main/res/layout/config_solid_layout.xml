@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.errorerrorerror.colorpicker.MultiColorPickerView
+        android:id="@+id/solidColorPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:pickerMode="hue_saturation">
+    </com.errorerrorerror.colorpicker.MultiColorPickerView>
+</layout>

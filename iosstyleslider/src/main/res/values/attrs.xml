@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IOSStyleSlider">
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="sliderColor" format="color" />
+        <attr name="maxValue" format="integer" />
+        <attr name="minValue" format="integer" />
+        <attr name="progress" format="integer" />
+        <attr name="animatedIcon" format="integer|reference"/>
+        <attr name="progressInitialValue" format="integer"/>
+        <attr name="issOnProgressChanged" />
+        <attr name="issOnStartTrackingTouch" />
+        <attr name="issOnStopTrackingTouch" />
+        <attr name="icon" format="reference" />
+        <attr name="iconSize" format="dimension" />
+        <attr name="progressStep" format="integer" />
+        <attr name="sliderDisabledColor" format="color" />
+        <attr name="backgroundColorDisabled" format="color" />
+        <attr name="android:iconTint" format="color" />
+        <attr name="android:iconTintMode"/>
+        <attr name="android:text"/>
+        <attr name="android:textColor"/>
+        <attr name="android:textSize"/>
+        <attr name="android:enabled"/>
+        <attr name="visibilityIconText" format="enum">
+            <enum name="icon" value="0" />
+            <enum name="text" value="1" />
+            <enum name="textIcon" value="2" />
+            <enum name="iconText" value="3" />
+        </attr>
+    </declare-styleable>
+
+
+</resources>

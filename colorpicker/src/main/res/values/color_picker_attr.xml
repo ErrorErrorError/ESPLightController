@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MultiColorPickerView">
+        <attr name="mainSelectorColor" format="color"/>
+        <attr name="pickerMode" format="enum">
+            <enum name="hue_saturation" value="0"/>
+            <enum name="hue_saturation_value" value="1"/>
+        </attr>
+<!--        <attr name="onlyUpdateOnTouchEventUp" format="boolean"/>-->
+    </declare-styleable>
+
+    <declare-styleable name="ColorWheelSelector">
+        <attr name="android:elevation" format="dimension"/>
+        <attr name="selectorColor" format="color"/>
+        <attr name="strokeWidth" format="dimension"/>
+    </declare-styleable>
+</resources>

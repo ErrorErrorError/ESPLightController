@@ -1,0 +1,40 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner 'androidx.test.ext.junit.runners.AndroidJUnitRunner'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+    buildToolsVersion = '28.0.3'
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.supportLibraryVersion"
+    implementation 'androidx.dynamicanimation:dynamicanimation:1.1.0-alpha02'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+
+    //IcePick
+    def icepick_version = "3.2.0"
+    implementation "frankiesardo:icepick:$icepick_version"
+    annotationProcessor "frankiesardo:icepick-processor:$icepick_version"
+
+    def lottieVersion = '3.3.0'
+    implementation "com.airbnb.android:lottie:$lottieVersion"
+    androidTestImplementation 'junit:junit:4.12'
+}

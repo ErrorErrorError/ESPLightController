@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <!--Bottom Sheets-->
+    <!--
+    <style name="ThemeOverlay.MyTheme.BottomSheetDialog" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowAnimationStyle">@style/Animation.MyTheme.BottomSheet.Modal</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="bottomSheetStyle">@style/Widget.MyTheme.BottomSheet.Modal</item>
+        <item name="android:navigationBarColor">?colorSurface</item>
+        <item name="android:navigationBarDividerColor" tools:ignore="NewApi">@android:color/transparent</item>
+    </style>
+    <style name="Widget.MyTheme.BottomSheet.Modal" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="backgroundTint">@color/colorBackground</item>
+    </style>
+    -->
+    <!-- Dialog -->
+    <!--
+    <style name="DialogStyle" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="background">?colorSurface</item>
+        <item name="android:outlineSpotShadowColor" tools:ignore="NewApi">@null</item>
+        <item name="android:outlineAmbientShadowColor" tools:ignore="NewApi">@null</item>
+    </style>
+       -->
+    <!-- InputTextLayout -->
+    <style name="Widget.InputTextLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="materialThemeOverlay">@style/TextInputEditText.Theme</item>
+        <item name="errorTextColor">?colorError</item>
+        <item name="shapeAppearance">@style/AppShapeAppearance.SmallComponent</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="boxBackgroundColor">?colorOnBackground</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="TextInputEditText.Theme" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="editTextStyle">@style/TextInputEditText.Style</item>
+    </style>
+
+    <style name="TextInputEditText.Style" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:elevation">10dp</item>
+        <item name="android:spotShadowAlpha">0.01</item>
+    </style>
+
+    <style name="DeviceCards" parent="Widget.MaterialComponents.CardView">
+        <item name="shapeAppearance">@style/AppShapeAppearance.SmallComponent</item>
+        <item name="cardElevation">10dp</item>
+    </style>
+
+
+
+    <style name="ToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="titleTextColor">@color/colorOnSurface</item>
+        <item name="titleTextAppearance">@style/TextAppearance.MyTheme.Toolbar</item>
+        <item name="subtitleTextColor">@color/colorOnSurfaceSubtitle</item>
+        <item name="android:elevation">0dp</item>
+    </style>
+
+    <style name="AppBarLayoutTheme" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="android:background">@color/colorBackground</item>
+    </style>
+
+</resources>

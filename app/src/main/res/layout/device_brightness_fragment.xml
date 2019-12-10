@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+<!--    <com.errorerrorerror.iosstyleslider.IOSStyleSlider
+        android:id="@+id/brightness"
+        android:layout_width="190dp"
+        android:layout_height="400dp"
+        android:background="@color/colorDisabled"
+        android:elevation="20dp"
+        android:gravity="center"
+        android:iconTint="@color/colorOnBackground"
+        android:iconTintMode="src_in"
+        android:textColor="@color/colorOnBackground"
+        android:textSize="14sp"
+        app:cornerRadius="50dp"
+        app:iconSize="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:sliderColor="@color/colorOnBackground"
+        app:visibilityIconText="iconText" />-->
+
+    <com.google.android.material.slider.Slider
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</layout>
