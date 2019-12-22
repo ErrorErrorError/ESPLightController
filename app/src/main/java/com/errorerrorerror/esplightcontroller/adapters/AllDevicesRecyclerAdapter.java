@@ -1,16 +1,22 @@
 package com.errorerrorerror.esplightcontroller.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.DiffUtil;
 
 import com.errorerrorerror.esplightcontroller.databinding.DeviceRecyclerviewBinding;
 import com.errorerrorerror.esplightcontroller.model.device.BaseDevice;
+import com.jakewharton.rxbinding3.view.RxView;
 
-public class AllDevicesRecyclerAdapter extends DataBindingAdapter<BaseDevice> {
+import io.reactivex.subjects.PublishSubject;
+
+public class AllDevicesRecyclerAdapter extends DataBindingAdapter<BaseDevice, DeviceRecyclerviewBinding> {
+
+    private PublishSubject<BaseDevice> powerButtonDevice = PublishSubject.create();
+    private PublishSubject<BaseDevice> errorButtonPressed = PublishSubject.create();
 
     private static final DiffUtil.ItemCallback<BaseDevice> DIFF_CALLBACK =
             new DiffUtil.ItemCallback<BaseDevice>() {
@@ -23,7 +29,7 @@ public class AllDevicesRecyclerAdapter extends DataBindingAdapter<BaseDevice> {
                 @Override
                 public boolean areContentsTheSame(@NonNull BaseDevice oldItem,
                                                   @NonNull BaseDevice newItem) {
-                    return oldItem.equals(newItem) && oldItem.isOn().equals(newItem.isOn());
+                    return oldItem.equals(newItem);
                 }
             };
 
@@ -38,12 +44,21 @@ public class AllDevicesRecyclerAdapter extends DataBindingAdapter<BaseDevice> {
 
     @NonNull
     @Override
-    public DeviceViewHolder<BaseDevice> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DeviceViewHolder<BaseDevice, DeviceRecyclerviewBinding> onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (layoutInflater == null) {
             layoutInflater = LayoutInflater.from(parent.getContext());
         }
-        final ViewDataBinding binding = DeviceRecyclerviewBinding.inflate(layoutInflater, parent, false);
+
+        final DeviceRecyclerviewBinding binding = DeviceRecyclerviewBinding.inflate(layoutInflater, parent, false);
         return new DeviceViewHolder<>(binding);
+    }
+
+    @SuppressLint("CheckResult")
+    @Override
+    public void onBindViewHolder(@NonNull DeviceViewHolder<BaseDevice, DeviceRecyclerviewBinding> holder, int position) {
+        super.onBindViewHolder(holder, position);
+        RxView.clicks(holder.binding.powerToggle).takeUntil(RxView.detaches(holder.itemView)).subscribe(unit -> powerButtonDevice.onNext(getItem(holder.getAdapterPosition())));
+        RxView.clicks(holder.binding.errorButton).takeUntil(RxView.detaches(holder.itemView)).subscribe(unit -> errorButtonPressed.onNext(getItem(holder.getAdapterPosition())));
     }
 
     @Override
@@ -62,5 +77,13 @@ public class AllDevicesRecyclerAdapter extends DataBindingAdapter<BaseDevice> {
 
     public void setMaxCount(int maxCount) {
         this.maxCount = maxCount;
+    }
+
+    public PublishSubject<BaseDevice> getPowerButtonClicked() {
+        return powerButtonDevice;
+    }
+
+    public PublishSubject<BaseDevice> getErrorButtonPressed() {
+        return errorButtonPressed;
     }
 }

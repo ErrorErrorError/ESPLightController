@@ -45,12 +45,30 @@
         <item name="android:spotShadowAlpha">0.01</item>
     </style>
 
+    <style name="Widget.InputTextLayout.ExposedDropDownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="materialThemeOverlay">@style/AutocompleteTextView.Theme</item>
+        <item name="errorTextColor">?colorError</item>
+        <item name="shapeAppearance">@style/AppShapeAppearance.SmallComponent</item>
+        <item name="android:clipChildren">false</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="boxBackgroundColor">?colorOnBackground</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
+    <style name="AutocompleteTextView.Theme" parent="ThemeOverlay.MaterialComponents.AutoCompleteTextView.OutlinedBox">
+        <item name="autoCompleteTextViewStyle">@style/AutocompleteTextView.Style</item>
+    </style>
+
+    <style name="AutocompleteTextView.Style" parent="Widget.MaterialComponents.AutoCompleteTextView.OutlinedBox">
+        <item name="android:elevation">10dp</item>
+        <item name="android:spotShadowAlpha">0.01</item>
+    </style>
+
     <style name="DeviceCards" parent="Widget.MaterialComponents.CardView">
         <item name="shapeAppearance">@style/AppShapeAppearance.SmallComponent</item>
         <item name="cardElevation">10dp</item>
     </style>
-
-
 
     <style name="ToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
         <item name="android:layout_width">match_parent</item>
@@ -65,5 +83,17 @@
     <style name="AppBarLayoutTheme" parent="Widget.MaterialComponents.AppBarLayout.Primary">
         <item name="android:background">@color/colorBackground</item>
     </style>
+
+    <style name="CircularMaterialButtonIcon" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:insetLeft">0dp</item>
+        <item name="android:insetRight">0dp</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:checkable">true</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">0dp</item>
+        <item name="cornerRadius">50dp</item>
+    </style>
+
 
 </resources>

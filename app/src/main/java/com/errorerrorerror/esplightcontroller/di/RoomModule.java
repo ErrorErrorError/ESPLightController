@@ -30,7 +30,7 @@ public class RoomModule {
     private final DevicesDatabase devicesDatabase;
 
     public RoomModule(Application application) {
-        devicesDatabase = Room.databaseBuilder(application.getApplicationContext(), DevicesDatabase.class, DATABASE_NAME).build();
+        devicesDatabase = Room.databaseBuilder(application.getApplicationContext(), DevicesDatabase.class, DATABASE_NAME).fallbackToDestructiveMigration().build();
     }
 
     @Singleton

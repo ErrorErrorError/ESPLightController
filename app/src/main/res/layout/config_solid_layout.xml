@@ -2,10 +2,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.errorerrorerror.colorpicker.MultiColorPickerView
+    <com.errorerrorerror.multicolorpicker.MultiColorPickerView
         android:id="@+id/solidColorPicker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:pickerMode="hue_saturation">
-    </com.errorerrorerror.colorpicker.MultiColorPickerView>
+    </com.errorerrorerror.multicolorpicker.MultiColorPickerView>
 </layout>

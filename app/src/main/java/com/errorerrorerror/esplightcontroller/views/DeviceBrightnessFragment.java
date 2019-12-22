@@ -1,31 +1,36 @@
 package com.errorerrorerror.esplightcontroller.views;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.errorerrorerror.esplightcontroller.App;
 import com.errorerrorerror.esplightcontroller.R;
 import com.errorerrorerror.esplightcontroller.databinding.DeviceBrightnessFragmentBinding;
 import com.errorerrorerror.esplightcontroller.model.device.BaseDevice;
-import com.errorerrorerror.iosstyleslider.IOSStyleSlider;
-import com.google.android.material.slider.Slider;
+import com.errorerrorerror.ioslider.IOSlider;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Completable;
+import io.reactivex.Single;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class DeviceBrightnessFragment extends BaseFragment<DeviceBrightnessFragmentBinding> {
 
     public static final String ID_BUNDLE  = "id_bundle";
-
     private long deviceId = -1;
 
-    private BaseDevice baseDevice;
 
     @Override
     void containsArguments() {
@@ -36,44 +41,30 @@ public class DeviceBrightnessFragment extends BaseFragment<DeviceBrightnessFragm
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        baseDevice = viewModel.getDeviceById(deviceId).subscribeOn(Schedulers.io()).blockingGet();
+        BaseDevice baseDevice = viewModel.getDeviceById(deviceId).subscribeOn(Schedulers.io()).doOnError(throwable -> {
+            Log.e(TAG, "accept: ", throwable);
+            Toast.makeText(getContext(), "An Error Occurred", Toast.LENGTH_LONG).show();
+            getActivity().onBackPressed();
+        }).blockingGet();
 
-        /*
-        binding.brightness.setValueFrom(0);
-        binding.brightness.setValueTo(100);
+        binding.brightness.setProgress(baseDevice.getBrightness());
 
-        binding.brightness.setValue(baseDevice.getBrightness());
-
-        binding.brightness.setOnChangeListener(new Slider.OnChangeListener() {
+        binding.brightness.setOnProgressChangeListener(new IOSlider.OnChangeListener() {
             @Override
-            public void onValueChange(Slider slider, float value) {
-                disposable.add(viewModel.updateBrightnessLevel((int) value, baseDevice).subscribeOn(Schedulers.io()).subscribe());
-            }
-        });
-
-         */
-
-        /*
-        binding.brightness.setSliderProgress(baseDevice.getBrightness());
-
-        binding.brightness.addOnProgressChanged(new IOSStyleSlider.OnProgressChangedListener() {
-            @Override
-            public void onProgressChanged(IOSStyleSlider slider, int progress) {
-                disposable.add(viewModel.updateBrightnessLevel(progress, baseDevice).subscribeOn(Schedulers.io()).subscribe());
+            public void onProgressChanged(IOSlider slider, float progress) {
+                disposable.add(viewModel.updateBrightnessLevel(Math.round(progress), baseDevice).subscribeOn(Schedulers.io()).subscribe());
             }
 
             @Override
-            public void onStartTrackingTouch(IOSStyleSlider slider) {
+            public void onStartTrackingTouch(IOSlider slider) {
 
             }
 
             @Override
-            public void onStopTrackingTouch(IOSStyleSlider slider) {
+            public void onStopTrackingTouch(IOSlider slider) {
 
             }
         });
-
-         */
     }
 
     @Override

@@ -9,15 +9,15 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.ToggleButton;
 
 import androidx.annotation.BoolRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -27,7 +27,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 /**
- * This class is basically MaterialButtonToggleGroup but it uses views of ToggleButton rather than MaterialButton
+ * This class is basically MaterialButtonToggleGroup but it allows to keep the shape of the button
  */
 
 public class ToggleGroup extends LinearLayout {
@@ -37,12 +37,12 @@ public class ToggleGroup extends LinearLayout {
         void onButtonChecked(ToggleGroup group, @IdRes int checkedId, boolean isChecked);
     }
 
-    private static final String LOG_TAG = ToggleButton.class.getSimpleName();
+    private static final String LOG_TAG = MaterialButton.class.getSimpleName();
 
     private final CheckedStateTracker checkedStateTracker = new CheckedStateTracker();
     private final LinkedHashSet<OnButtonCheckedListener> onButtonCheckedListeners =
             new LinkedHashSet<>();
-    private final Comparator<ToggleButton> childOrderComparator =
+    private final Comparator<MaterialButton> childOrderComparator =
             (v1, v2) -> {
                 int checked = Boolean.valueOf(v1.isChecked()).compareTo(v2.isChecked());
                 if (checked != 0) {
@@ -98,23 +98,22 @@ public class ToggleGroup extends LinearLayout {
     }
 
     /**
-     * This override prohibits Views other than {@link ToggleButton} to be added. It also makes
+     * This override prohibits Views other than {@link com.google.android.material.button.MaterialButton} to be added. It also makes
      * updates to the add button shape and margins.
      */
     @Override
     public void addView(View child, int index, ViewGroup.LayoutParams params) {
-        if (!(child instanceof ToggleButton)) {
-            Log.e(LOG_TAG, "Child views must be of type ToggleButton.");
+        if (!(child instanceof MaterialButton)) {
+            Log.e(LOG_TAG, "Child views must be of type MaterialButton.");
             return;
         }
 
         super.addView(child, index, params);
-        ToggleButton buttonChild = (ToggleButton) child;
+        final MaterialButton buttonChild = (MaterialButton) child;
         setGeneratedIdIfNeeded(buttonChild);
-        // Sets sensible default values and an internal checked change listener for this child
+
         setupButtonChild(buttonChild);
 
-        // Reorders children if a checked child was added to this layout
         if (buttonChild.isChecked()) {
             updateCheckedStates(buttonChild.getId(), true);
             setCheckedId(buttonChild.getId());
@@ -125,8 +124,8 @@ public class ToggleGroup extends LinearLayout {
     public void onViewRemoved(View child) {
         super.onViewRemoved(child);
 
-        if (child instanceof ToggleButton) {
-            ((ToggleButton) child).setOnCheckedChangeListener(null);
+        if (child instanceof MaterialButton) {
+            ((MaterialButton) child).removeOnCheckedChangeListener(checkedStateTracker);
         }
     }
 
@@ -159,7 +158,7 @@ public class ToggleGroup extends LinearLayout {
     public void clearChecked() {
         skipCheckedStateTracker = true;
         for (int i = 0; i < getChildCount(); i++) {
-            ToggleButton child = getChildButton(i);
+            MaterialButton child = getChildButton(i);
             child.setChecked(false);
 
             dispatchOnButtonChecked(child.getId(), false);
@@ -178,7 +177,7 @@ public class ToggleGroup extends LinearLayout {
     public List<Integer> getCheckedButtonIds() {
         ArrayList<Integer> checkedIds = new ArrayList<>();
         for (int i = 0; i < getChildCount(); i++) {
-            ToggleButton child = getChildButton(i);
+            MaterialButton child = getChildButton(i);
             if (child.isChecked()) {
                 checkedIds.add(child.getId());
             }
@@ -223,9 +222,9 @@ public class ToggleGroup extends LinearLayout {
 
     private void setCheckedStateForView(@IdRes int viewId, boolean checked) {
         View checkedView = findViewById(viewId);
-        if (checkedView instanceof ToggleButton) {
+        if (checkedView instanceof MaterialButton) {
             skipCheckedStateTracker = true;
-            ((ToggleButton) checkedView).setChecked(checked);
+            ((MaterialButton) checkedView).setChecked(checked);
             skipCheckedStateTracker = false;
         }
     }
@@ -237,8 +236,8 @@ public class ToggleGroup extends LinearLayout {
     }
 
 
-    private ToggleButton getChildButton(int index) {
-        return (ToggleButton) getChildAt(index);
+    private MaterialButton getChildButton(int index) {
+        return (MaterialButton) getChildAt(index);
     }
 
     private int getFirstVisibleChildIndex() {
@@ -270,7 +269,7 @@ public class ToggleGroup extends LinearLayout {
 
     private void updateCheckedStates(int childId, boolean childIsChecked) {
         for (int i = 0; i < getChildCount(); i++) {
-            ToggleButton button = getChildButton(i);
+            MaterialButton button = getChildButton(i);
             if (button.isChecked()) {
                 if (singleSelection && childIsChecked && button.getId() != childId) {
                     setCheckedStateForView(button.getId(), false);
@@ -292,7 +291,7 @@ public class ToggleGroup extends LinearLayout {
         setCheckedId(checkedId);
     }
 
-    private void setGeneratedIdIfNeeded(@NonNull ToggleButton toggleButton) {
+    private void setGeneratedIdIfNeeded(@NonNull MaterialButton toggleButton) {
         // Generates an ID if none is set, for relative positioning purposes
         if (toggleButton.getId() == View.NO_ID) {
             toggleButton.setId(ViewCompat.generateViewId());
@@ -300,11 +299,11 @@ public class ToggleGroup extends LinearLayout {
     }
 
 
-    private void setupButtonChild(@NonNull ToggleButton buttonChild) {
+    private void setupButtonChild(@NonNull MaterialButton buttonChild) {
         buttonChild.setMaxLines(1);
         buttonChild.setEllipsize(TextUtils.TruncateAt.END);
 
-        buttonChild.setOnCheckedChangeListener(checkedStateTracker);
+        buttonChild.addOnCheckedChangeListener(checkedStateTracker);
     }
 
     @NonNull
@@ -331,7 +330,7 @@ public class ToggleGroup extends LinearLayout {
     }
 
     private void updateChildOrder() {
-        final SortedMap<ToggleButton, Integer> viewToIndexMap = new TreeMap<>(childOrderComparator);
+        final SortedMap<MaterialButton, Integer> viewToIndexMap = new TreeMap<>(childOrderComparator);
         int childCount = getChildCount();
         for (int i = 0; i < childCount; i++) {
             viewToIndexMap.put(getChildButton(i), i);
@@ -355,9 +354,10 @@ public class ToggleGroup extends LinearLayout {
         return shouldIntercept;
     }
 
-    private class CheckedStateTracker implements ToggleButton.OnCheckedChangeListener {
+    private class CheckedStateTracker implements MaterialButton.OnCheckedChangeListener {
+
         @Override
-        public void onCheckedChanged(@NonNull CompoundButton button, boolean isChecked) {
+        public void onCheckedChanged(MaterialButton button, boolean isChecked) {
             // Prevents infinite recursion
             if (skipCheckedStateTracker) {
                 return;

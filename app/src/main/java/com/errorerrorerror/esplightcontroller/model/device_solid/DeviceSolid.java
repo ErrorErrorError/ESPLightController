@@ -11,6 +11,8 @@ import java.util.Objects;
 @Entity(tableName = "device_solid")
 public class DeviceSolid extends BaseDevice {
 
+    public static final String SOLID_COLOR = "solid_color";
+
     @ColumnInfo(name = "color")
     private int color;
 

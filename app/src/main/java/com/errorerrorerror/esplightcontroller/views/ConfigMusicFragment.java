@@ -3,28 +3,24 @@ package com.errorerrorerror.esplightcontroller.views;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.SeekBar;
+import android.widget.Toast;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.graphics.ColorUtils;
 
-import com.errorerrorerror.colorpicker.ColorWheelSelector;
-import com.errorerrorerror.colorpicker.MultiColorPickerView;
 import com.errorerrorerror.esplightcontroller.App;
 import com.errorerrorerror.esplightcontroller.R;
 import com.errorerrorerror.esplightcontroller.databinding.ConfigMusicLayoutBinding;
 import com.errorerrorerror.esplightcontroller.model.device.BaseDevice;
 import com.errorerrorerror.esplightcontroller.model.device_music.DeviceMusic;
 import com.google.android.material.chip.Chip;
-import com.jakewharton.rxbinding3.view.RxView;
-import com.jakewharton.rxbinding3.widget.RxCompoundButton;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class ConfigMusicFragment extends BaseFragment<ConfigMusicLayoutBinding> {
@@ -86,7 +82,11 @@ public class ConfigMusicFragment extends BaseFragment<ConfigMusicLayoutBinding> 
     }
 
     private void initializeViews() {
-        BaseDevice baseDevice = viewModel.getDeviceById(deviceId).subscribeOn(Schedulers.io()).blockingGet();
+        BaseDevice baseDevice = viewModel.getDeviceById(deviceId).subscribeOn(Schedulers.io()).doOnError(throwable -> {
+            Log.e(TAG, "accept: ", throwable);
+            Toast.makeText(getContext(), "An Error Occurred", Toast.LENGTH_LONG).show();
+            getActivity().onBackPressed();
+        }).blockingGet();
 
         if (!(baseDevice instanceof DeviceMusic)) {
             deviceMusic = new DeviceMusic(baseDevice, Color.RED, Color.GREEN, Color.BLUE, 0);

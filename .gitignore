@@ -10,6 +10,15 @@
 # Java class files
 *.class
 
+# OS-specific files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
 # Generated files
 bin/
 gen/

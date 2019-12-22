@@ -12,6 +12,9 @@ import java.util.Objects;
 @Entity(tableName = "device_waves")
 public class DeviceWaves extends BaseDevice {
 
+    public static final String WAVES_SPEED = "waves_speed";
+    public static final String WAVES_COLORS = "waves_colors";
+
     @ColumnInfo(name = "speed")
     private int speed;
 
@@ -44,15 +47,14 @@ public class DeviceWaves extends BaseDevice {
         this.colors = color;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof DeviceWaves)) return false;
         if (!super.equals(o)) return false;
-        DeviceWaves that = (DeviceWaves) o;
-        return getSpeed() == that.getSpeed() &&
-                Objects.equals(getColors(), that.getColors());
+        DeviceWaves mDevice = (DeviceWaves) o;
+        return this.getSpeed() == mDevice.getSpeed() &&
+                this.getColors().equals(mDevice.getColors());
     }
 
     @Override

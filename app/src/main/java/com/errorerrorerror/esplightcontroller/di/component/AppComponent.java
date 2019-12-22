@@ -12,6 +12,7 @@ import com.errorerrorerror.esplightcontroller.views.DeviceBrightnessFragment;
 import com.errorerrorerror.esplightcontroller.views.DeviceConfigurationFragment;
 import com.errorerrorerror.esplightcontroller.views.DeviceModeFragment;
 import com.errorerrorerror.esplightcontroller.views.HomeFragment;
+import com.errorerrorerror.esplightcontroller.views.SettingsFragment;
 
 import javax.inject.Singleton;
 
@@ -22,7 +23,7 @@ import dagger.Component;
 public interface AppComponent {
 
     void inject(MainActivity mainActivity);
-
+    void inject(SettingsFragment settingsFragment);
 
     void inject(HomeFragment baseFragment);
     void inject(AddDeviceManuallyFragment addDeviceManuallyFragment);
@@ -33,5 +34,6 @@ public interface AppComponent {
     void inject(DeviceBrightnessFragment deviceBrightnessFragment);
     void inject(DeviceConfigurationFragment deviceConfigurationFragment);
     void inject(DeviceModeFragment deviceModeFragment);
+
 }
 

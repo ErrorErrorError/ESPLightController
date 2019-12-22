@@ -4,20 +4,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.errorerrorerror.colorpicker.MultiColorPickerView;
-import com.errorerrorerror.colorpicker.ColorWheelSelector;
+import com.errorerrorerror.multicolorpicker.MultiColorPickerView;
 import com.errorerrorerror.esplightcontroller.App;
 import com.errorerrorerror.esplightcontroller.R;
 import com.errorerrorerror.esplightcontroller.databinding.ConfigSolidLayoutBinding;
 import com.errorerrorerror.esplightcontroller.model.device.BaseDevice;
 import com.errorerrorerror.esplightcontroller.model.device_solid.DeviceSolid;
-
-import org.jetbrains.annotations.NotNull;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -48,7 +45,11 @@ public class ConfigSolidFragment extends BaseFragment<ConfigSolidLayoutBinding> 
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        BaseDevice baseDevice = viewModel.getDeviceById(deviceId).subscribeOn(Schedulers.io()).blockingGet();
+        BaseDevice baseDevice = viewModel.getDeviceById(deviceId).subscribeOn(Schedulers.io()).doOnError(throwable -> {
+            Log.e(TAG, "accept: ", throwable);
+            Toast.makeText(getContext(), "An Error Occurred", Toast.LENGTH_LONG).show();
+            getActivity().onBackPressed();
+        }).blockingGet();
 
         if (!(baseDevice instanceof DeviceSolid)) {
             deviceSolid = new DeviceSolid(baseDevice, Color.RED);

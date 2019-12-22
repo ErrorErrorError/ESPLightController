@@ -14,7 +14,7 @@ import com.errorerrorerror.esplightcontroller.model.device_waves.DeviceWaves;
 import com.errorerrorerror.esplightcontroller.model.device_waves.DeviceWavesDao;
 import com.errorerrorerror.esplightcontroller.utils.Converters;
 
-@Database(entities = {DeviceMusic.class, DeviceWaves.class, DeviceSolid.class, DeviceAmbilight.class}, version = 1)
+@Database(entities = {DeviceMusic.class, DeviceWaves.class, DeviceSolid.class, DeviceAmbilight.class}, version = 2)
 @TypeConverters(Converters.class)
 public abstract class DevicesDatabase extends RoomDatabase {
 

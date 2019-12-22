@@ -1,25 +1,32 @@
 package com.errorerrorerror.esplightcontroller;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.errorerrorerror.esplightcontroller.databinding.ActivityMainBinding;
 import com.errorerrorerror.esplightcontroller.utils.DisplayUtils;
 import com.errorerrorerror.esplightcontroller.views.BaseFragment;
 import com.errorerrorerror.esplightcontroller.views.HomeFragment;
 import com.errorerrorerror.esplightcontroller.views.RoundedDrawerArrowDrawable;
+import com.errorerrorerror.esplightcontroller.views.SettingsFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -62,12 +69,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        if (item.getItemId() == R.id.settingsMenuItem) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START, false);
+            SettingsFragment settingsFragment = BaseFragment.newInstance(SettingsFragment.class, null);
+            addFragmentToTop(settingsFragment);
+        }
         return false;
     }
 
     public void addFragmentToTop(BaseFragment fragment) {
-        BaseFragment getPreviousFragment = ((BaseFragment)getSupportFragmentManager().findFragmentByTag(fragmentTag));
+        BaseFragment getPreviousFragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag(fragmentTag);
         getSupportFragmentManager()
                 .beginTransaction()
 //                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
@@ -87,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         homeFragment.setRetainInstance(true);
 
         getSupportFragmentManager().addOnBackStackChangedListener(() -> {
-            int count = getSupportFragmentManager().getBackStackEntryCount();
+            final int count = getSupportFragmentManager().getBackStackEntryCount();
             if (count > 0) {
                     binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
             } else {
@@ -146,5 +157,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         binding.drawerLayout.addDrawerListener(navigationToggle);
 
         binding.navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (getCurrentFocus() != null) {
+
+            InputMethodManager imm = ContextCompat.getSystemService(getApplicationContext(), InputMethodManager.class);
+            imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+        return super.dispatchTouchEvent(ev);
     }
 }

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="corner_radius">40dp</dimen>
+    <dimen name="text_size">46sp</dimen>
+    <dimen name="elevation">10dp</dimen>
+    <dimen name="icon_size">60dp</dimen>
+    <dimen name="min_width">100dp</dimen>
+    <dimen name="min_height">200dp</dimen>
+</resources>

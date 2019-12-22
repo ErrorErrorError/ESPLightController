@@ -11,6 +11,14 @@ import java.util.Objects;
 public class BaseDevice {
     public static final String EMPTY_GROUP = "empty_group_placeholder";
 
+    /// Bundle Names
+    public static final String DEVICE_NAME = "device_name";
+    public static final String DEVICE_IP = "device_ip";
+    public static final String DEVICE_PORT = "device_port";
+    public static final String DEVICE_ON = "device_on";
+    public static final String DEVICE_BRIGHTNESS = "device_brightness";
+    public static final String DEVICE_GROUP = "device_group";
+
     @PrimaryKey(autoGenerate = true)
     private long id;
 
@@ -24,7 +32,7 @@ public class BaseDevice {
     private String port;
 
     @ColumnInfo(name = "device_on")
-    private Boolean on;
+    private boolean on;
 
     @ColumnInfo(name = "brightness_level")
     private int brightness;
@@ -44,7 +52,7 @@ public class BaseDevice {
         this.groupName = device.getGroupName();
     }
 
-    public BaseDevice(String deviceName, String ip, String port, Boolean on, int brightness, String groupName) {
+    public BaseDevice(String deviceName, String ip, String port, boolean on, int brightness, String groupName) {
         this.deviceName = deviceName;
         this.ip = ip;
         this.port = port;
@@ -62,11 +70,11 @@ public class BaseDevice {
     }
 
     //Setters and getters
-    public Boolean isOn() {
+    public boolean isOn() {
         return on;
     }
 
-    public void setOn(Boolean on) {
+    public void setOn(boolean on) {
         this.on = on;
     }
 

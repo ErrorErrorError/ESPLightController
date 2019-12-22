@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
-apply plugin: 'kotlin-android'
+/*apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-kapt'*/
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -39,9 +39,11 @@ android {
         sourceCompatibility '1.8'
         targetCompatibility '1.8'
     }
+    /*
     kapt {
         generateStubs = true
     }
+     */
     buildToolsVersion rootProject.ext.buildToolsVersion
 }
 
@@ -58,7 +60,7 @@ dependencies {
 
     def room_version = "2.2.2"
     implementation "androidx.room:room-runtime:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
 
 
@@ -75,16 +77,17 @@ dependencies {
 
     def dagger_version = "2.25.2"
     implementation "com.google.dagger:dagger:$dagger_version"
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-compiler:$dagger_version"
     implementation "com.google.dagger:dagger-android:$dagger_version"
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$dagger_version"
 
-    implementation project(':iosstyleslider')
-    implementation project(':colorseekbar')
-    implementation project(':colorpicker')
+    implementation project(':ioslider')
+    implementation project(':multicolorpicker')
 
-    implementation 'com.ramotion.fluidslider:fluid-slider:0.3.1'
+    implementation 'com.airbnb.android:lottie:3.3.1'
+
+    implementation 'androidx.preference:preference:1.1.0'
 
     ////// Debug //////
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'

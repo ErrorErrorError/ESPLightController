@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IOSlider">
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="labelColor" format="color" />
+        <attr name="activeTrackColor" format="color"/>
+        <attr name="inactiveTrackColor" format="color"/>
+        <attr name="labelSize" format="dimension"/>
+        <attr name="iconAnimation" format="reference"/>
+        <attr name="iconColor" format="color"/>
+        <attr name="iconSize" format="dimension"/>
+        <attr name="blendLabelIcon" format="boolean"/>
+        <attr name="android:min" format="integer|float"/>
+        <attr name="android:max" format="integer|float"/>
+        <attr name="android:progress" format="integer|float"/>
+        <attr name="orientation" format="enum">
+            <enum value="0" name="horizontal"/>
+            <enum value="1" name="vertical"/>
+        </attr>
+
+        <attr name="touchMode" format="enum">
+            <enum value="0" name="drag"/>
+            <enum value="1" name="touch"/>
+        </attr>
+    </declare-styleable>
+
+    <attr name="IOSliderStyle" format="reference" />
+</resources>

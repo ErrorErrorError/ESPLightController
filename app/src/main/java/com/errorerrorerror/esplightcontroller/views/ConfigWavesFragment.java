@@ -3,7 +3,6 @@ package com.errorerrorerror.esplightcontroller.views;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -12,30 +11,23 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.errorerrorerror.colorpicker.ColorWheelSelector;
-import com.errorerrorerror.colorpicker.MultiColorPickerView;
 import com.errorerrorerror.esplightcontroller.App;
 import com.errorerrorerror.esplightcontroller.R;
 import com.errorerrorerror.esplightcontroller.databinding.ConfigWavesLayoutBinding;
 import com.errorerrorerror.esplightcontroller.model.device.BaseDevice;
-import com.errorerrorerror.esplightcontroller.model.device_solid.DeviceSolid;
 import com.errorerrorerror.esplightcontroller.model.device_waves.DeviceWaves;
 import com.errorerrorerror.esplightcontroller.utils.ObservableList;
 import com.google.android.material.shape.CornerFamily;
 import com.google.android.material.shape.MaterialShapeDrawable;
 import com.google.android.material.shape.ShapeAppearanceModel;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.SingleSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
-import io.reactivex.subjects.PublishSubject;
 
 public class ConfigWavesFragment extends BaseFragment<ConfigWavesLayoutBinding> {
 

@@ -4,9 +4,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.errorerrorerror.esplightcontroller.App;
 import com.errorerrorerror.esplightcontroller.MainActivity;
@@ -17,26 +21,62 @@ import com.errorerrorerror.esplightcontroller.model.device_solid.DeviceSolid;
 import com.errorerrorerror.esplightcontroller.utils.ValidationUtil;
 import com.jakewharton.rxbinding3.appcompat.RxToolbar;
 import com.jakewharton.rxbinding3.view.RxView;
+import com.jakewharton.rxbinding3.widget.AdapterViewItemClickEvent;
+import com.jakewharton.rxbinding3.widget.RxAutoCompleteTextView;
 import com.jakewharton.rxbinding3.widget.RxTextView;
+import com.jakewharton.rxbinding3.widget.TextViewEditorActionEvent;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.functions.Predicate;
 import io.reactivex.schedulers.Schedulers;
 
 public class AddDeviceManuallyFragment extends BaseFragment<AddDeviceManuallyBinding> {
 
-    private static final String TAG = "AddDeviceManuallyDebug";
+    private static final String NO_GROUP = "None";
 
     private long mode = -1;
+
+    private ArrayAdapter<String> adapter;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        adapter = new ArrayAdapter<>(
+                Objects.requireNonNull(getContext()),
+                R.layout.dropdown_menu_item);
+        adapter.add(NO_GROUP);
+
         disposable.add(viewModel.getAllDevices().subscribe(this::add));
+        
+        disposable.add(viewModel.getAllDevices().switchMap(Observable::fromIterable).map((Function<? super BaseDevice, ? extends String>) BaseDevice::getGroupName).filter((Predicate<String>) s -> !s.equals(BaseDevice.EMPTY_GROUP)).distinct().subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String s) {
+                adapter.add(s);
+                Log.d(TAG, "accept: " + s);
+            }
+        }));
+
+        binding.groupNameInput.setAdapter(adapter);
+
+        disposable.add(RxAutoCompleteTextView.itemClickEvents(binding.groupNameInput).subscribe(adapterViewItemClickEvent -> {
+            hideKeyboard();
+            binding.groupNameInput.dismissDropDown();
+        }));
+
+        disposable.add(RxTextView.editorActionEvents(binding.groupNameInput).subscribe(textViewEditorActionEvent -> {
+            if (textViewEditorActionEvent.getActionId() == EditorInfo.IME_ACTION_DONE) {
+                hideKeyboard();
+                binding.groupNameInput.dismissDropDown();
+            }
+        }));
     }
 
     @Override
@@ -46,7 +86,6 @@ public class AddDeviceManuallyFragment extends BaseFragment<AddDeviceManuallyBin
 
         disposable.add(RxToolbar.navigationClicks(binding.includeLayout.toolbar).subscribe(unit -> getActivity().onBackPressed()));
     }
-
 
     @Override
     public String getFragmentTitle() {
@@ -63,7 +102,6 @@ public class AddDeviceManuallyFragment extends BaseFragment<AddDeviceManuallyBin
         ((App) getActivity().getApplication()).getAppComponent().inject(this);
     }
 
-
     private void add(@NonNull List<BaseDevice> devicesList) {
         disposable.add(
                 observableValidation(devicesList, 1)
@@ -73,8 +111,8 @@ public class AddDeviceManuallyFragment extends BaseFragment<AddDeviceManuallyBin
                                 binding.ipAddressInput.getText().toString(),
                                 binding.portInput.getText().toString(),
                                 true,
-                                80,
-                                BaseDevice.EMPTY_GROUP)
+                                100,
+                                (binding.groupNameInput.getText().toString().equals(NO_GROUP) ? BaseDevice.EMPTY_GROUP : binding.groupNameInput.getText().toString()))
                         )
                         .map(device -> new DeviceSolid(
                                 device,
@@ -121,6 +159,14 @@ public class AddDeviceManuallyFragment extends BaseFragment<AddDeviceManuallyBin
             binding.addDeviceButton.setEnabled(aBoolean);
             return aBoolean;
         });
+    }
+
+    private void hideKeyboard() {
+        if (getActivity().getCurrentFocus() != null) {
+
+            InputMethodManager imm = ContextCompat.getSystemService(getContext(), InputMethodManager.class);
+            imm.hideSoftInputFromWindow(getActivity().getCurrentFocus().getWindowToken(), 0);
+        }
     }
 
 }

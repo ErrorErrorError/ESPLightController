@@ -1,2 +1,2 @@
-include ':app', ':iosstyleslider', ':colorseekbar', ':colorpicker', ':ioslider'
+include ':app', ':multicolorpicker', 'ioslider'
 rootProject.name='ESPLightController'

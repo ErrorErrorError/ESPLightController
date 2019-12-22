@@ -23,7 +23,7 @@
     <color name="colorOnPrimary">#ffffff</color>
     <color name="colorOnSecondary">#3D5BFE</color>
     <color name="colorOnBackground">#FAFAFA</color>
-    <color name="colorOnSurface">#383838</color>
+    <color name="colorOnSurface">#4A4A4A</color>
     <color name="colorOnError">#0fFE3D3D</color>
 
     <color name="colorDisabled">#D0DAE0</color>

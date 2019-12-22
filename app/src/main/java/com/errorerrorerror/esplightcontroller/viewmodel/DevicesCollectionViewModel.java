@@ -56,7 +56,7 @@ public class DevicesCollectionViewModel extends ViewModel {
                         (device instanceof DeviceWaves) ?
                                 devicesDataSource.getWavesRepository().setSwitch(bool, device.getId()) :
                                 (device instanceof DeviceAmbilight) ?
-                                        devicesDataSource.getAmbilightRepository().setSwitch(bool, device.getId()) : Completable.error(() -> new Throwable("Cannot Update Switch With Unknown Device"));
+                                        devicesDataSource.getAmbilightRepository().setSwitch(bool, device.getId()) : Completable.error(() -> new Throwable("Cannot update switch with unknown device"));
     }
 
     public Completable updateBrightnessLevel(int progress, BaseDevice device) {
@@ -67,7 +67,7 @@ public class DevicesCollectionViewModel extends ViewModel {
                         (device instanceof DeviceWaves) ?
                                 devicesDataSource.getWavesRepository().setBrightnessLevel(progress, device.getId()) :
                                 (device instanceof DeviceAmbilight) ?
-                                        devicesDataSource.getAmbilightRepository().setBrightnessLevel(progress, device.getId()) : Completable.error(() -> new Throwable("Cannot Update Brightness With Unknown Device"));
+                                        devicesDataSource.getAmbilightRepository().setBrightnessLevel(progress, device.getId()) : Completable.error(() -> new Throwable("Cannot update brightness with unknown device"));
     }
 
     public Observable<List<DeviceMusic>> getAllDeviceMusic() {
@@ -113,7 +113,7 @@ public class DevicesCollectionViewModel extends ViewModel {
                         (device instanceof DeviceWaves) ?
                                 devicesDataSource.getWavesRepository().deleteDevice((DeviceWaves) device) :
                                 (device instanceof DeviceAmbilight) ?
-                                        devicesDataSource.getAmbilightRepository().deleteDevice((DeviceAmbilight) device) : Completable.error(() -> new Throwable("Cannot Delete With Unknown Device"));
+                                        devicesDataSource.getAmbilightRepository().deleteDevice((DeviceAmbilight) device) : Completable.error(() -> new Throwable("Cannot delete with unknown device"));
     }
 
     public Completable insertDevice(BaseDevice device) {
@@ -124,7 +124,7 @@ public class DevicesCollectionViewModel extends ViewModel {
                         (device instanceof DeviceWaves) ?
                                 devicesDataSource.getWavesRepository().insertDevice((DeviceWaves) device) :
                                 (device instanceof DeviceAmbilight) ?
-                                        devicesDataSource.getAmbilightRepository().insertDevice((DeviceAmbilight) device) : Completable.error(() -> new Throwable("Cannot Insert With Unknown Device"));
+                                        devicesDataSource.getAmbilightRepository().insertDevice((DeviceAmbilight) device) : Completable.error(() -> new Throwable("Cannot insert with unknown device"));
     }
 
     public Completable updateDevice(BaseDevice device) {
@@ -137,7 +137,7 @@ public class DevicesCollectionViewModel extends ViewModel {
         else if (device instanceof DeviceAmbilight)
             return devicesDataSource.getAmbilightRepository().updateDevice((DeviceAmbilight) device);
         else
-            return Completable.error(() -> new Throwable("Cannot Update With Unknown Device"));
+            return Completable.error(() -> new Throwable("Cannot update with unknown device"));
     }
 
     public Single<BaseDevice> getDeviceById(long id) {

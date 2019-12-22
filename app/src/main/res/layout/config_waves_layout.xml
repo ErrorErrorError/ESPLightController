@@ -7,7 +7,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.errorerrorerror.colorpicker.MultiColorPickerView
+        <com.errorerrorerror.multicolorpicker.MultiColorPickerView
             android:id="@+id/wavesColorPicker"
             android:layout_width="wrap_content"
             android:layout_height="0dp"

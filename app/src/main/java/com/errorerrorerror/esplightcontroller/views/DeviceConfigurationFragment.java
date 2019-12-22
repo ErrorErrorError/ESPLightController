@@ -35,9 +35,11 @@ import com.errorerrorerror.esplightcontroller.App;
 import com.errorerrorerror.esplightcontroller.MainActivity;
 import com.errorerrorerror.esplightcontroller.R;
 import com.errorerrorerror.esplightcontroller.databinding.DeviceConfigurationBinding;
+import com.errorerrorerror.esplightcontroller.model.device.BaseDevice;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.jakewharton.rxbinding3.appcompat.RxToolbar;
 import com.jakewharton.rxbinding3.view.RxView;
@@ -47,7 +49,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import kotlin.Unit;
 
 public class DeviceConfigurationFragment extends BaseFragment<DeviceConfigurationBinding> {
@@ -80,10 +84,10 @@ public class DeviceConfigurationFragment extends BaseFragment<DeviceConfiguratio
     }
 
     @Override
-    protected void initToolbar() {
-        binding.includeLayout.toolbar.setTitle(tabName);
-        binding.includeLayout.toolbar.setNavigationIcon(R.drawable.ic_toolbar_back_arrow_icon);
-        disposable.add(RxToolbar.navigationClicks(binding.includeLayout.toolbar).subscribe(unit -> getActivity().onBackPressed()));
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        BaseDevice device = viewModel.getDeviceById(id).blockingGet();
 
         binding.toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if (isChecked) {
@@ -103,6 +107,22 @@ public class DeviceConfigurationFragment extends BaseFragment<DeviceConfiguratio
         });
 
         binding.toggleGroup.check(binding.brightnessButton.getId());
+
+        binding.powerButton.setChecked(device.isOn());
+
+        binding.powerButton.addOnCheckedChangeListener(new MaterialButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(MaterialButton button, boolean isChecked) {
+                disposable.add(viewModel.setSwitch(isChecked, device).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe());
+            }
+        });
+    }
+
+    @Override
+    protected void initToolbar() {
+        binding.includeLayout.toolbar.setTitle(tabName);
+        binding.includeLayout.toolbar.setNavigationIcon(R.drawable.ic_toolbar_back_arrow_icon);
+        disposable.add(RxToolbar.navigationClicks(binding.includeLayout.toolbar).subscribe(unit -> getActivity().onBackPressed()));
     }
 
 

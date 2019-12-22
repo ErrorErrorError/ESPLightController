@@ -56,7 +56,7 @@
 
         </com.google.android.material.chip.ChipGroup>
 
-        <com.errorerrorerror.colorpicker.MultiColorPickerView
+        <com.errorerrorerror.multicolorpicker.MultiColorPickerView
             android:id="@+id/colorPickerMusic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -21,8 +21,9 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public abstract class BaseFragment<T extends ViewDataBinding> extends Fragment {
 
-    static final String ID_BUNDLE = "id_bundle";
-    static final String TITLE_BUNDLE = "title_bundle";
+    protected final String TAG = getClass().getSimpleName();
+    protected final String ID_BUNDLE = "id_bundle";
+    protected final String TITLE_BUNDLE = "title_bundle";
 
     CompositeDisposable disposable = new CompositeDisposable();
     protected T binding;

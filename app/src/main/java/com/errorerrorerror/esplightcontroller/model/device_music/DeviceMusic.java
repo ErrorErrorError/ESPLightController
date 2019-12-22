@@ -12,6 +12,11 @@ import java.util.Objects;
 @Entity(tableName = "device_music")
 public class DeviceMusic extends BaseDevice {
 
+    public static final String MUSIC_LOW = "music_low";
+    public static final String MUSIC_MID = "music_mid";
+    public static final String MUSIC_HIGH = "music_high";
+    public static final String MUSIC_INTENSITY = "music_intensity";
+
     @ColumnInfo(name = "low")
     private int lowColor;
 

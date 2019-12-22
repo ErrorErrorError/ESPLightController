@@ -1,20 +1,17 @@
 package com.errorerrorerror.esplightcontroller.adapters;
 
-import android.view.View;
-
 import androidx.annotation.NonNull;
 import androidx.databinding.ViewDataBinding;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.errorerrorerror.esplightcontroller.BR;
-import com.errorerrorerror.esplightcontroller.interfaces.OnItemClickedListener;
 
-public class DeviceViewHolder<T> extends RecyclerView.ViewHolder {
+public class DeviceViewHolder<T, V extends ViewDataBinding> extends RecyclerView.ViewHolder {
 
     @NonNull
-    public final ViewDataBinding binding;
+    public final V binding;
 
-    DeviceViewHolder(@NonNull ViewDataBinding view) {
+    DeviceViewHolder(@NonNull V view) {
         super(view.getRoot());
         binding = view;
     }
