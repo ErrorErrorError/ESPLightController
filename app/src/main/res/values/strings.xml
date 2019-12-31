@@ -20,4 +20,9 @@
     <string name="edit">Edit</string>
     <string name="delete">Delete</string>
     <string name="group_name">Group Name</string>
+
+    <string name="themes">Themes</string>
+    <string name="themes_capitalized">THEMES</string>
+
+    <string name="theme_preferences">theme_mode</string>
 </resources>

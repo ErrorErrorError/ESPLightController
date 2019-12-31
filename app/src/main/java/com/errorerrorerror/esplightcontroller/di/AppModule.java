@@ -31,5 +31,4 @@ public class AppModule {
         return application.getSharedPreferences(application.getPackageName() + "_preferences",
                 Context.MODE_PRIVATE);
     }
-
 }

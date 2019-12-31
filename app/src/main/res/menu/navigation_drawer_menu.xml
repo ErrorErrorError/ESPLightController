@@ -9,14 +9,16 @@
             android:id="@+id/allDevicesMenuItem"
             android:title="@string/all_devices"/>
         <item
+            android:icon="@drawable/settings_icon"
             android:id="@+id/settingsMenuItem"
             android:title="@string/settings"/>
         <item
+            android:icon="@drawable/help_icon"
             android:id="@+id/helpMenuItem"
             android:title="@string/help"/>
     </group>
         <item
+            android:icon="@drawable/exit_to_app_icon"
             android:id="@+id/exitMenuItem"
             android:title="@string/exit"/>
-
 </menu>

@@ -5,26 +5,30 @@
     <!--colorPrimary colors map to components and elements, such as app bars and buttons. -->
     <!--colorSecondary colors are most often used as accents on components, such as FABs and -->
     <!--selection controls.-->
-    <color name="colorPrimary">#6880FF</color>
-    <color name="colorPrimaryVariant">#423D99</color>
-    <color name="colorSecondary">#3D5BFE</color>
-    <color name="colorSecondaryVariant">#0D5D82</color>
+    <color name="primary">#5D55E7</color>
+    <color name="primaryVariant">#413BA1</color>
+    <color name="secondary">#4A43B3</color>
+    <color name="secondaryVariant">#332E7D</color>
 
     <!--colorBackground appears behind scrollable content and is used for the default window-->
     <!--background. colorSurface is mapped to the surface of components such as cards, sheets-->
     <!--and menus. colorError is used to indicate an error state for components such as-->
     <!--text fields.-->
-    <color name="colorBackground">#EBF2F6</color>
-    <color name="colorSurface">#FAFAFA</color>
-    <color name="colorError">#FA3232</color>
+<!--    <color name="colorBackground">#EBF2F6</color>-->
+    <color name="background">#EFEFEF</color>
+    <color name="surface">#FAFAFA</color>
+    <color name="error">#FA3232</color>
+    <color name="stroke">#D1D1D1</color>
 
     <!--"On" colors define how text, icons and strokes are colored in relation to the surface-->
     <!--on which they appear.-->
-    <color name="colorOnPrimary">#ffffff</color>
-    <color name="colorOnSecondary">#3D5BFE</color>
-    <color name="colorOnBackground">#FAFAFA</color>
-    <color name="colorOnSurface">#4A4A4A</color>
-    <color name="colorOnError">#0fFE3D3D</color>
+    <color name="onPrimary">#FAFAFA</color>
+    <color name="onSecondary">#FAFAFA</color>
+    <color name="onBackground">#000000</color>
+    <color name="onSurface">#4A4A4A</color>
+    <color name="onError">#FAFAFA</color>
 
-    <color name="colorDisabled">#D0DAE0</color>
+    <color name="disabled">#D0DAE0</color>
+
+    <color name="textIconColor">#4A4A4A</color>
 </resources>

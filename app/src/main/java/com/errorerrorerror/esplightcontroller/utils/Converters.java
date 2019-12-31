@@ -2,39 +2,53 @@ package com.errorerrorerror.esplightcontroller.utils;
 
 import androidx.room.TypeConverter;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.errorerrorerror.esplightcontroller.data.modes.BaseMode;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
 
 public class Converters {
+    private static final JsonSerializer<BaseMode> serializer = (src, typeOfSrc, context) -> {
+        JsonObject result = new JsonObject();
+        result.add("type", new JsonPrimitive(src.getClass().getSimpleName()));
+        result.add("properties", context.serialize(src));
+        return result;
+    };
 
-    @TypeConverter
-    public static String IntArrayToJsonString(List<Integer> values) {
-        JSONArray jsonArray = new JSONArray();
-        for (int value : values) {
-            jsonArray.put(value);
-        }
 
-        return jsonArray.toString();
-    }
+    private static final JsonDeserializer<BaseMode> deserializer = (json, typeOfT, context) -> {
+        JsonObject jsonObject = json.getAsJsonObject();
+        String type = jsonObject.get("type").getAsString();
+        JsonElement element = jsonObject.get("properties");
 
-    @TypeConverter
-    public static List<Integer> JsonStringToIntArray(String values) {
         try {
-            JSONArray jsonArray = new JSONArray(values);
-            List<Integer> intArray = new ArrayList<>(jsonArray.length());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                intArray.add(Integer.parseInt(jsonArray.getString(i)));
-            }
-
-            return intArray;
-        } catch (JSONException e) {
-            e.printStackTrace();
+            return context.deserialize(element, Class.forName(BaseMode.class.getPackage().getName() + "." + type));
+        } catch (ClassNotFoundException cnfe) {
+            throw new JsonParseException("Unknown element type: " + type, cnfe);
         }
+    };
 
-        return null;
+    @TypeConverter
+    public static String modeToString(BaseMode mode) {
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(BaseMode.class, serializer)
+                .create();
+
+        return gson.toJson(mode, BaseMode.class);
     }
 
+    @TypeConverter
+    public static BaseMode stringToMode(String string) {
+
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(BaseMode.class, deserializer)
+                .create();
+
+        return gson.fromJson(string, BaseMode.class);
+    }
 }

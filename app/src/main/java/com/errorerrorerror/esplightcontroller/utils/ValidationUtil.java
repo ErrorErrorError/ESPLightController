@@ -2,7 +2,7 @@ package com.errorerrorerror.esplightcontroller.utils;
 
 import androidx.annotation.NonNull;
 
-import com.errorerrorerror.esplightcontroller.model.device.BaseDevice;
+import com.errorerrorerror.esplightcontroller.data.device.Device;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
@@ -28,11 +28,11 @@ public class ValidationUtil {
     //IpV6 regex
     private static final String ipV6Regex = "(([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]+|::(ffff(:0{1,4})?:)?((25[0-5]|(2[0-4]|1?[0-9])?[0-9])\\.){3}(25[0-5]|(2[0-4]|1?[0-9])?[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1?[0-9])?[0-9])\\.){3}(25[0-5]|(2[0-4]|1?[0-9])?[0-9]))";
 
-    public static boolean nameRepeated(List<BaseDevice> deviceList, String name, long exceptThis) {
+    public static boolean nameRepeated(List<Device> deviceList, String name, long exceptThis) {
         name = name.trim();
-        for (BaseDevice device : deviceList) {
+        for (Device device : deviceList) {
             if(device.getId() != exceptThis) {
-                if (device.getDeviceName().equals(name)) {
+                if (device.getName().equals(name)) {
                     return true;
                 }
             }
@@ -44,8 +44,8 @@ public class ValidationUtil {
         return !name.isEmpty();
     }
 
-    public static boolean ipRepeated(List<BaseDevice> deviceList, String ip, long exceptThis) {
-        for (BaseDevice device : deviceList) {
+    public static boolean ipRepeated(List<Device> deviceList, String ip, long exceptThis) {
+        for (Device device : deviceList) {
             if (device.getId() != exceptThis) {
                 if (device.getIp().equals(ip)) {
                     return true;

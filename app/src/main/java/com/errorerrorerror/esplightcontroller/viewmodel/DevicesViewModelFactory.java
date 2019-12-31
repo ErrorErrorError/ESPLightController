@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.errorerrorerror.esplightcontroller.model.MainRepository;
+import com.errorerrorerror.esplightcontroller.db.MainRepository;
 
 import javax.inject.Inject;
 

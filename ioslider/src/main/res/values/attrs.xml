@@ -22,6 +22,12 @@
             <enum value="0" name="drag"/>
             <enum value="1" name="touch"/>
         </attr>
+        <attr name="iconTextVisibility" format="enum">
+            <enum value="0" name="icon"/>
+            <enum value="1" name="text"/>
+            <enum value="2" name="icontext"/>
+            <enum value="3" name="texticon"/>
+        </attr>
     </declare-styleable>
 
     <attr name="IOSliderStyle" format="reference" />

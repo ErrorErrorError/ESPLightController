@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:paddingStart="@{@dimen/app_padding - @dimen/toolbar_padding}"
+        android:paddingEnd="@{@dimen/app_padding - @dimen/toolbar_padding}"
+        tools:menu="@menu/dashboard_toolbar_menu"
+        tools:title="Dashboard"
+        tools:navigationIcon="@drawable/sandwitch_navigation_icon"/>
+
+    <!--        android:layout_marginStart="10dp"-->
+    <!--        android:layout_marginEnd="10dp"-->
+    <!--        android:layout_marginTop="5dp"-->
+</layout>

@@ -18,7 +18,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme.DayNight"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.errorerrorerror.esplightcontroller.MainActivity">
+        <activity android:name=".ui.modules.main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,6 +26,8 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".ui.modules.settings.SettingsActivity"/>
+        <activity android:name=".ui.modules.configs.DeviceConfigActivity"/>
     </application>
 
 </manifest>

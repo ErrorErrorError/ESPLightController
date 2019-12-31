@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!--        android:background="@color/colorBackground"-->
+
+        <include
+            android:id="@+id/includeLayout"
+            layout="@layout/toolbar_layout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.errorerrorerror.esplightcontroller.ui.widgets.ToggleGroup
+            android:id="@+id/toggleGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/includeLayout"
+            app:layout_constraintVertical_bias="0.020">
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/CircularMaterialButtonIcon"
+                android:id="@+id/modeButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="50dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                app:backgroundTint="@color/mode_icons_background_color_state"
+                app:icon="@drawable/modes_icon"
+                app:iconTint="@color/mode_icons_color_selector" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/CircularMaterialButtonIcon"
+                android:id="@+id/brightnessButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                app:backgroundTint="@color/mode_icons_background_color_state"
+                app:icon="@drawable/brightness_icon"
+                app:iconTint="@color/mode_icons_color_selector" />
+
+            <com.google.android.material.button.MaterialButton
+                style="@style/CircularMaterialButtonIcon"
+                android:id="@+id/timerButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="50dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
+                app:backgroundTint="@color/mode_icons_background_color_state"
+                app:icon="@drawable/timer_icon"
+                app:iconTint="@color/mode_icons_color_selector" />
+            <!--                app:backgroundTint="@color/mode_icons_background_color_state"-->
+<!--                app:iconTint="@color/mode_icons_color_selector" />-->
+        </com.errorerrorerror.esplightcontroller.ui.widgets.ToggleGroup>
+
+        <LinearLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/powerButton"
+            app:layout_constraintTop_toBottomOf="@+id/toggleGroup">
+
+        </LinearLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/powerButton"
+            style="@style/CircularMaterialButtonIcon"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            app:backgroundTint="@color/power_background_color_state"
+            app:icon="@drawable/power_icon"
+            app:iconTint="@color/power_color_state"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.98" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

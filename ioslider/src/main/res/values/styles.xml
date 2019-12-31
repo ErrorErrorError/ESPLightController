@@ -10,6 +10,7 @@
         <item name="orientation">vertical</item>
         <item name="iconAnimation">@raw/brightness_animation</item>
         <item name="android:elevation">@dimen/elevation</item>
+        <item name="iconTextVisibility">texticon</item>
     </style>
 
     <style name="Widget.IOSlider" parent="Base.Widget.IOSlider"/>

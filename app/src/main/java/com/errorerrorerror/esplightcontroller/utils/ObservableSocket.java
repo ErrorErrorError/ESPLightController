@@ -1,14 +1,10 @@
 package com.errorerrorerror.esplightcontroller.utils;
 
-import android.graphics.Color;
 import android.util.Log;
 
 import androidx.annotation.IntDef;
 
-import com.errorerrorerror.esplightcontroller.model.device.BaseDevice;
-import com.errorerrorerror.esplightcontroller.model.device_music.DeviceMusic;
-import com.errorerrorerror.esplightcontroller.model.device_solid.DeviceSolid;
-import com.errorerrorerror.esplightcontroller.model.device_waves.DeviceWaves;
+import com.errorerrorerror.esplightcontroller.data.device.Device;
 
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -38,26 +34,21 @@ public class ObservableSocket {
 
     private static final String TAG = ObservableSocket.class.getSimpleName();
 
-    private static final int DEVICE_SOLID = 0;
-    private static final int DEVICE_WAVES = 1;
-    private static final int DEVICE_MUSIC = 2;
-    private static final int DEVICE_UNKNOWN = 3;
-
     private static final int heartbeatInterval = 5000;
     private static final int initialDelay = 0;
     private static final int timeout = 3000;
 
     private Socket socket;
-    private BaseDevice device;
+    private Device device;
 
     private PublishSubject<Integer> observableConnection = PublishSubject.create();
-    private PublishSubject<BaseDevice> observableDevice = PublishSubject.create();
+    private PublishSubject<Device> observableDevice = PublishSubject.create();
     private Disposable socketDisposable;
     private Disposable observableConnectionDisposable;
 
     private boolean wasConnectedBefore;
 
-    public ObservableSocket(BaseDevice device) {
+    public ObservableSocket(Device device) {
         this.device = device;
     }
 
@@ -72,7 +63,7 @@ public class ObservableSocket {
                 .subscribe(connection -> {
 
                     dispatchConnectivityObservable();
-                    Log.d(TAG, "startObservingConnection: " + device.getDeviceName() + " on: " + device.isOn() + " connection: " + connection);
+                    Log.d(TAG, "startObservingConnection: " + device.getName() + " on: " + device.isOn() + " connection: " + connection);
                 });
     }
 
@@ -84,7 +75,7 @@ public class ObservableSocket {
 
         try {
             socket = new Socket();
-            socket.connect(new InetSocketAddress(device.getIp(), Integer.parseInt(device.getPort())), timeout);
+            socket.connect(new InetSocketAddress(device.getIp(), device.getPort()), timeout);
             connectionState = CONNECTED;
             connectionState = sendData(socket, device, connectionState);
         } catch (SocketTimeoutException e) {
@@ -106,7 +97,7 @@ public class ObservableSocket {
         return device.getId();
     }
 
-    private static int sendData(final Socket socket, final BaseDevice device, @ConnectionState int connectionState) {
+    private static int sendData(final Socket socket, final Device device, @ConnectionState int connectionState) {
         byte[] data = getDeviceAsBinary(device);
 
         try {
@@ -123,7 +114,7 @@ public class ObservableSocket {
         return connectionState;
     }
 
-    public void updateDevice(BaseDevice device) {
+    public void updateDevice(Device device) {
         if (!this.device.equals(device)) {
             this.device = device;
             startObservingConnection();
@@ -158,55 +149,17 @@ public class ObservableSocket {
         return Observable.zip(observableDevice, observableConnection, ObservableDevice::new).doOnSubscribe(disposable -> observableConnectionDisposable = disposable);
     }
 
-    private static byte[] getDeviceAsBinary(BaseDevice device) {
-        byte size = (byte) ((device instanceof DeviceSolid) ? 6 : (device instanceof DeviceWaves) ? 5 + (((DeviceWaves) device).getColors().size() * 3) : (device instanceof DeviceMusic) ? 13 : 0);
+    private static byte[] getDeviceAsBinary(Device device) {
+        byte[] deviceData = {(byte) (device.isOn() ? 1 : 0), (byte) map(device.getBrightness(), 0 ,100, 0, 255)};
+        byte[] modeData = device.getMode().toDataByte();
 
-        byte[] byteArray = new byte[size];
-        byteArray[0] = (byte) (device.isOn() ? 1 : 0);
-        byteArray[1] = (byte) map(device.getBrightness(), 0 ,100, 0, 255);
-        byteArray[2] = (byte) ((device instanceof DeviceSolid) ? DEVICE_SOLID : (device instanceof DeviceWaves) ? DEVICE_WAVES : (device instanceof DeviceMusic) ? DEVICE_MUSIC : DEVICE_UNKNOWN);
+        int dLength = deviceData.length;
+        int mLength = modeData.length;
+        byte[] data = new byte[dLength + mLength];
+        System.arraycopy(deviceData, 0, data, 0, dLength);
+        System.arraycopy(modeData, 0, data, dLength, mLength);
 
-        byte index = 3;
-        switch (byteArray[2]) {
-            case DEVICE_SOLID:
-                final DeviceSolid deviceSolid = (DeviceSolid) device;
-                byteArray[index] = (byte) Color.red(deviceSolid.getColor());
-                byteArray[index + 1] = (byte) Color.green(deviceSolid.getColor());
-                byteArray[index + 2] = (byte) Color.blue(deviceSolid.getColor());
-                break;
-            case DEVICE_WAVES:
-                final DeviceWaves deviceWaves = (DeviceWaves) device;
-                byteArray[index] = (byte) deviceWaves.getSpeed();
-                byteArray[index + 1] = (byte) deviceWaves.getColors().size();
-                index += 1;
-                for (int i = 0; i < deviceWaves.getColors().size(); i++) {
-                    byteArray[index + 1] = (byte) Color.red(deviceWaves.getColors().get(i));
-                    byteArray[index + 2] = (byte) Color.green(deviceWaves.getColors().get(i));
-                    byteArray[index + 3] = (byte) Color.blue(deviceWaves.getColors().get(i));
-                    index += 3;
-                }
-
-                break;
-            case DEVICE_MUSIC:
-                final DeviceMusic deviceMusic = (DeviceMusic) device;
-                byteArray[index] = (byte) deviceMusic.getIntensity();
-
-                byteArray[index + 1] = (byte) Color.red(deviceMusic.getLowColor());
-                byteArray[index + 2] = (byte) Color.green(deviceMusic.getLowColor());
-                byteArray[index + 3] = (byte) Color.blue(deviceMusic.getLowColor());
-
-                byteArray[index + 4] = (byte) Color.red(deviceMusic.getMidColor());
-                byteArray[index + 5] = (byte) Color.green(deviceMusic.getMidColor());
-                byteArray[index + 6] = (byte) Color.blue(deviceMusic.getMidColor());
-
-                byteArray[index + 7] = (byte) Color.red(deviceMusic.getHighColor());
-                byteArray[index + 8] = (byte) Color.green(deviceMusic.getHighColor());
-                byteArray[index + 9] = (byte) Color.blue(deviceMusic.getHighColor());
-
-                break;
-        }
-
-        return byteArray;
+        return data;
     }
 
     /// From Arduino IDE https://www.arduino.cc/reference/en/language/functions/math/map/
@@ -214,22 +167,21 @@ public class ObservableSocket {
         return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
     }
 
-
     @IntDef({CONNECTION_RESET, CONNECTED, CONNECTING, DISCONNECTED, COULD_NOT_CONNECT, ERROR_OCCURRED, CONNECTION_TIMEOUT, ERROR_CLOSING_SOCKET})
     @Retention(RetentionPolicy.SOURCE)
     public @interface ConnectionState {
     }
 
     public class ObservableDevice {
-        private final BaseDevice device;
+        private final Device device;
         private final int connection;
 
-        ObservableDevice(BaseDevice device, int connection) {
+        ObservableDevice(Device device, int connection) {
             this.device = device;
             this.connection = connection;
         }
 
-        public BaseDevice getDevice() {
+        public Device getDevice() {
             return device;
         }
 

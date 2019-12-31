@@ -1,29 +1,16 @@
 package com.errorerrorerror.esplightcontroller.utils;
 
-import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.errorerrorerror.esplightcontroller.model.device.BaseDevice;
-import com.errorerrorerror.esplightcontroller.model.device_music.DeviceMusic;
-import com.errorerrorerror.esplightcontroller.model.device_solid.DeviceSolid;
-import com.errorerrorerror.esplightcontroller.model.device_waves.DeviceWaves;
+public abstract class DeviceListCallback extends DiffUtil.Callback {
 
-import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
-public class DeviceListCallback extends DiffUtil.Callback {
-
+    /*
     @NotNull
-    private final List<BaseDevice> oldList;
+    private final List<Device> oldList;
     @NonNull
-    private final List<BaseDevice> newList;
+    private final List<Device> newList;
 
-    public DeviceListCallback(@NotNull List<BaseDevice> oldList, @NonNull List<BaseDevice> newList) {
+    public DeviceListCallback(@NotNull List<Device> oldList, @NonNull List<Device> newList) {
         this.oldList = oldList;
         this.newList = newList;
     }
@@ -51,8 +38,8 @@ public class DeviceListCallback extends DiffUtil.Callback {
     @Nullable
     @Override
     public Object getChangePayload(int oldItemPosition, int newItemPosition) {
-        final BaseDevice oldDevice = oldList.get(oldItemPosition);
-        final BaseDevice newDevice = newList.get(oldItemPosition);
+        final Device oldDevice = oldList.get(oldItemPosition);
+        final Device newDevice = newList.get(oldItemPosition);
 
         Bundle diff = new Bundle();
         checkIfBaseDeviceIsEqual(oldDevice, newDevice, diff);
@@ -60,33 +47,33 @@ public class DeviceListCallback extends DiffUtil.Callback {
         return diff.size() == 0 ? null : diff;
     }
 
-    private static void checkIfBaseDeviceIsEqual(final BaseDevice oldDevice,final BaseDevice newDevice,final Bundle diff) {
+    private static void checkIfBaseDeviceIsEqual(final Device oldDevice,final Device newDevice,final Bundle diff) {
         if (oldDevice.getBrightness() != newDevice.getBrightness()) {
-            diff.putInt(BaseDevice.DEVICE_BRIGHTNESS, newDevice.getBrightness());
+            diff.putInt(Device.DEVICE_BRIGHTNESS, newDevice.getBrightness());
         }
 
-        if (!(oldDevice.getGroupName().equals(newDevice.getGroupName()))) {
-            diff.putString(BaseDevice.DEVICE_GROUP, newDevice.getGroupName());
+        if (!(oldDevice.getGroup().equals(newDevice.getGroup()))) {
+            diff.putString(Device.DEVICE_GROUP, newDevice.getGroup());
         }
 
-        if (!(oldDevice.getDeviceName().equals(newDevice.getDeviceName()))) {
-            diff.putString(BaseDevice.DEVICE_NAME, newDevice.getDeviceName());
+        if (!(oldDevice.getName().equals(newDevice.getName()))) {
+            diff.putString(Device.DEVICE_NAME, newDevice.getName());
         }
 
         if (oldDevice.isOn() == newDevice.isOn()) {
-            diff.putBoolean(BaseDevice.DEVICE_ON, newDevice.isOn());
+            diff.putBoolean(Device.DEVICE_ON, newDevice.isOn());
         }
 
         if (!oldDevice.getIp().equals(newDevice.getIp())) {
-            diff.putString(BaseDevice.DEVICE_IP, newDevice.getPort());
+            diff.putString(Device.DEVICE_IP, newDevice.getPort());
         }
 
         if (!(oldDevice.getPort().equals(newDevice.getPort()))) {
-            diff.putString(BaseDevice.DEVICE_PORT, newDevice.getPort());
+            diff.putString(Device.DEVICE_PORT, newDevice.getPort());
         }
     }
 
-    private static void checkIfDeviceChangedMode(final BaseDevice oldDevice, final BaseDevice newDevice, final Bundle diff) {
+    private static void checkIfDeviceChangedMode(final Device oldDevice, final Device newDevice, final Bundle diff) {
 
         if (oldDevice instanceof DeviceSolid && newDevice instanceof DeviceSolid) {
             final DeviceSolid oldSolid = (DeviceSolid) oldDevice;
@@ -154,4 +141,6 @@ public class DeviceListCallback extends DiffUtil.Callback {
         diff.putInt(DeviceWaves.WAVES_SPEED, newWaves.getSpeed());
         diff.putIntegerArrayList(DeviceWaves.WAVES_COLORS, (ArrayList<Integer>) newWaves.getColors());
     }
+
+     */
 }

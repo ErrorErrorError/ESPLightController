@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/app_padding"
+        android:paddingEnd="@dimen/app_padding"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.radiobutton.MaterialRadioButton
+            android:id="@+id/themeCheckbox"
+            android:layout_width="46dp"
+            android:layout_height="46dp"
+            android:focusable="false"
+            android:clickable="false"
+            android:background="@android:color/transparent"/>
+
+        <TextView
+            android:id="@+id/iconItemTitle"
+            style="@style/TextAppearance.AppCompat.Subhead"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/themeCheckbox"
+            tools:text="Setting" />
+    </RelativeLayout>
+</layout>

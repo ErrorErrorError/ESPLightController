@@ -19,9 +19,9 @@ android {
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments = [
-                        "room.schemaLocation":"$projectDir/schemas".toString(),
-                        "room.incremental":"true",
-                        "room.expandProjection":"true"]
+                        "room.schemaLocation"  : "$projectDir/schemas".toString(),
+                        "room.incremental"     : "true",
+                        "room.expandProjection": "true"]
             }
         }
     }
@@ -44,6 +44,18 @@ android {
         generateStubs = true
     }
      */
+
+    sourceSets {
+        main {
+            res.srcDirs = ['src/main/res/layouts/sharing',
+                           'src/main/res/layouts/settings',
+                           'src/main/res/layouts/main',
+                           'src/main/res/layouts/list_item_layouts',
+                           'src/main/res/layouts/config',
+                           'src/main/res/layouts/add',
+                           'src/main/res']
+        }
+    }
     buildToolsVersion rootProject.ext.buildToolsVersion
 }
 
@@ -56,9 +68,9 @@ dependencies {
 
     // Material Navigation View Library
     implementation 'com.shreyaspatil:MaterialNavigationView:1.1'
-    implementation 'com.google.android.material:material:1.2.0-alpha02'
+    implementation 'com.google.android.material:material:1.2.0-alpha03'
 
-    def room_version = "2.2.2"
+    def room_version = "2.2.3"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
@@ -89,7 +101,12 @@ dependencies {
 
     implementation 'androidx.preference:preference:1.1.0'
 
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+
+    implementation 'com.google.code.gson:gson:2.8.6'
+
+    compileOnly 'org.projectlombok:lombok:1.18.10'
+    annotationProcessor 'org.projectlombok:lombok:1.18.10'
     ////// Debug //////
 //    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.0'
 }
-

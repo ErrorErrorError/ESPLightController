@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Modified Colors for dark theme -->
 <resources>
-    <!--DARK COLOR THEME-->
-    <color name="colorPrimary">#6d6ae6</color>
-    <color name="colorPrimaryVariant">#423D99</color>
-    <color name="colorSecondary">#3D5BFE</color>
-    <color name="colorSecondaryVariant">#0D5D82</color>
+    <color name="background">#121212</color>
+    <color name="surface">#1E1E1E</color>
+    <color name="stroke">#3B3B3B</color>
 
-    <color name="colorBackground">#080808</color>
-    <color name="colorSurface">#0D0D0D</color>
-    <color name="colorError">#DE4343</color>
+    <color name="onBackground">#FAFAFA</color>
+    <color name="onSurface">#FAFAFA</color>
 
-    <color name="colorOnPrimary">#FFFFFF</color>
-    <color name="colorOnSecondary">#000000</color>
-    <color name="colorOnBackground">#1D1D1D</color>
-    <color name="colorOnSurface">#313133</color>
-    <color name="colorOnError">#262626</color>
+    <color name="textIconColor">#FFFFFF</color>
 </resources>

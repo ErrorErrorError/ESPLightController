@@ -54,17 +54,23 @@ public class IOSlider extends View {
 
     @IntDef({HORIZONTAL, VERTICAL})
     @Retention(RetentionPolicy.SOURCE)
-    @interface OrientationMode {
-    }
+    @interface OrientationMode { }
     public static final int HORIZONTAL = 0;
     public static final int VERTICAL = 1;
 
     @IntDef({DRAG, TOUCH})
     @Retention(RetentionPolicy.SOURCE)
-    @interface TouchMode {
-    }
+    @interface TouchMode {}
     public static final int DRAG = 0;
     public static final int TOUCH = 1;
+
+    @IntDef({TEXT, ICON, TEXTICON, ICONTEXT})
+    @Retention(RetentionPolicy.SOURCE)
+    @interface IconTextVisibility {}
+    public static final int ICON = 0;
+    public static final int TEXT = 1;
+    public static final int ICONTEXT = 2;
+    public static final int TEXTICON = 3;
 
     @NonNull
     private final Paint inactiveTrackPaint;
@@ -96,6 +102,8 @@ public class IOSlider extends View {
 
     private @OrientationMode int mOrientation;
     private @TouchMode int touchMode;
+    private @IconTextVisibility
+    int iconTextView;
 
     @Nullable
     private Drawable iconDrawable;
@@ -180,6 +188,8 @@ public class IOSlider extends View {
 
         setProgress(ta.getFloat(R.styleable.IOSlider_android_progress, 50));
 
+        iconTextView = ta.getInt(R.styleable.IOSlider_iconTextVisibility, TEXTICON);
+
         ta.recycle();
 
         validateMinValue();
@@ -255,6 +265,18 @@ public class IOSlider extends View {
         this.iconSize = iconSize;
         updateIconSize();
         invalidate();
+    }
+
+    @IconTextVisibility
+    public int getIconTextVisibility() {
+        return iconTextView;
+    }
+
+    public void setIconTextVisibility(@IconTextVisibility int iconTextVisibility) {
+        if (iconTextView != iconTextVisibility) {
+            this.iconTextView = iconTextVisibility;
+            invalidate();
+        }
     }
 
     public void setOnProgressChangeListener(@Nullable OnChangeListener listener) {
@@ -502,9 +524,13 @@ public class IOSlider extends View {
 
         drawActiveTrack(canvas);
 
-        drawLabel(canvas);
+        if (iconTextView == ICONTEXT || iconTextView == TEXT || iconTextView == TEXTICON) {
+            drawLabel(canvas);
+        }
 
-        drawIcon(canvas);
+        if (iconTextView == ICONTEXT || iconTextView == ICON || iconTextView == TEXTICON) {
+            drawIcon(canvas);
+        }
     }
 
     private void drawInactiveTrack(Canvas canvas) {

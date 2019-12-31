@@ -6,16 +6,10 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.room.Room;
 
-import com.errorerrorerror.esplightcontroller.model.DevicesDatabase;
-import com.errorerrorerror.esplightcontroller.model.MainRepository;
-import com.errorerrorerror.esplightcontroller.model.device_ambilight.AmbilightRepository;
-import com.errorerrorerror.esplightcontroller.model.device_ambilight.DeviceAmbilightDao;
-import com.errorerrorerror.esplightcontroller.model.device_music.DeviceMusicDao;
-import com.errorerrorerror.esplightcontroller.model.device_music.MusicRepository;
-import com.errorerrorerror.esplightcontroller.model.device_solid.DeviceSolidDao;
-import com.errorerrorerror.esplightcontroller.model.device_solid.SolidRepository;
-import com.errorerrorerror.esplightcontroller.model.device_waves.DeviceWavesDao;
-import com.errorerrorerror.esplightcontroller.model.device_waves.WavesRepository;
+import com.errorerrorerror.esplightcontroller.db.DevicesDatabase;
+import com.errorerrorerror.esplightcontroller.db.MainRepository;
+import com.errorerrorerror.esplightcontroller.data.device.DeviceDao;
+import com.errorerrorerror.esplightcontroller.data.device.DeviceRepository;
 import com.errorerrorerror.esplightcontroller.viewmodel.DevicesViewModelFactory;
 
 import javax.inject.Singleton;
@@ -41,61 +35,21 @@ public class RoomModule {
 
     @Singleton
     @Provides
-    DeviceMusicDao providesDevicesMusicDao(@NonNull DevicesDatabase devicesDatabase) {
-        return devicesDatabase.getMusicDao();
+    DeviceDao providesDeviceDao(@NonNull DevicesDatabase devicesDatabase) {
+        return devicesDatabase.getDeviceDao();
     }
 
     @Singleton
     @Provides
-    DeviceSolidDao providesDevicesSolidDao(@NonNull DevicesDatabase devicesDatabase) {
-        return devicesDatabase.getSolidDao();
-    }
-
-    @Singleton
-    @Provides
-    DeviceWavesDao providesDevicesWavesDao(@NonNull DevicesDatabase devicesDatabase) {
-        return devicesDatabase.getWavesDao();
-    }
-
-    @Singleton
-    @Provides
-    DeviceAmbilightDao providesDevicesAmbilightDao(@NonNull DevicesDatabase devicesDatabase) {
-        return devicesDatabase.getAmbilightDao();
+    DeviceRepository providesDeviceRepository(DeviceDao baseDeviceDao) {
+        return new DeviceRepository(baseDeviceDao);
     }
 
     @NonNull
     @Singleton
     @Provides
-    WavesRepository providesWaveRepository(DeviceWavesDao deviceWavesDao) {
-        return new WavesRepository(deviceWavesDao);
-    }
-
-    @NonNull
-    @Singleton
-    @Provides
-    SolidRepository providesSolidRepository(DeviceSolidDao deviceSolidDao) {
-        return new SolidRepository(deviceSolidDao);
-    }
-
-    @NonNull
-    @Singleton
-    @Provides
-    MusicRepository providesMusicRepository(DeviceMusicDao deviceMusicDao) {
-        return new MusicRepository(deviceMusicDao);
-    }
-
-    @NonNull
-    @Singleton
-    @Provides
-    AmbilightRepository providesAmbilightRepository(DeviceAmbilightDao deviceAmbilightDao) {
-        return new AmbilightRepository(deviceAmbilightDao);
-    }
-
-    @NonNull
-    @Singleton
-    @Provides
-    MainRepository providesMainRepository(WavesRepository waves, SolidRepository solid, MusicRepository music, AmbilightRepository ambilight) {
-        return new MainRepository(music, solid, waves, ambilight);
+    MainRepository providesMainRepository(DeviceRepository deviceRepository) {
+        return new MainRepository(deviceRepository);
     }
 
     @Provides

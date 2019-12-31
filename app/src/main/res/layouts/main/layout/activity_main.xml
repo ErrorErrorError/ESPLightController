@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorSurface"
+        tools:context=".ui.modules.main.MainActivity">
+        <!--        android:background="@color/colorSurface"-->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/mainContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:animateLayoutChanges="false"
+            app:cardCornerRadius="0dp"
+            app:cardBackgroundColor="?android:attr/colorBackground"
+            app:cardElevation="0dp"/>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationView"
+            android:layout_width="250dp"
+            android:scrollbars="none"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|left"
+            android:overScrollMode="never"
+            android:paddingStart="50dp"
+            android:paddingTop="100dp"
+            android:paddingEnd="0dp"
+            app:menu="@menu/navigation_drawer_menu"/>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+</layout>
